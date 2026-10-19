@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal Plano de Saúde</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: uma coluna estreita, cartão de busca no topo, resultado logo abaixo */
+:root{
+  --bg:#f3f6f5; --surface:#ffffff; --fg:#17302a; --muted:#5b6f69;
+  --line:#d6e0dd; --accent:#1f6b52; --accent-fg:#ffffff; --accent-soft:#e2f0ea;
+  --warn:#8a5a00; --warn-soft:#fbf1dc;
+  --display:"Fraunces",Georgia,serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1715; --surface:#16211e; --fg:#e4eeea; --muted:#9db1aa;
+  --line:#2a3a35; --accent:#5fc49c; --accent-fg:#0b1f18; --accent-soft:#1c3a2f;
+  --warn:#f0c26a; --warn-soft:#3a2f17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1715; --surface:#16211e; --fg:#e4eeea; --muted:#9db1aa;
+  --line:#2a3a35; --accent:#5fc49c; --accent-fg:#0b1f18; --accent-soft:#1c3a2f;
+  --warn:#f0c26a; --warn-soft:#3a2f17; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(28px,6vw,36px);line-height:1.15;margin:4px 0 8px;text-wrap:balance}
+.lead{color:var(--muted);margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+label{display:block;font-weight:600;margin-bottom:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input{flex:1 1 220px;min-width:0;font:inherit;font-size:17px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
+input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+button,.btn{font:inherit;font-weight:600;padding:12px 18px;border-radius:10px;border:0;background:var(--accent);color:var(--accent-fg);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+button:focus-visible,.btn:focus-visible{outline:3px solid var(--accent-soft);outline-offset:2px}
+.btn.alt{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.hint{font-size:13px;color:var(--muted);margin-top:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--fg);border:0;font-weight:500}
+.result h2{font-size:20px;margin:2px 0 4px}
+.meta{color:var(--muted);font-size:14px;margin:0 0 16px}
+.actions{display:flex;flex-direction:column;gap:10px}
+.opt{border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.opt p{margin:0;font-size:14px;color:var(--muted)}
+.opt strong{color:var(--fg)}
+.note{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 12px;font-size:14px}
+footer{font-size:12px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:no-preference){.result{animation:in .25s ease-out}@keyframes in{from{transform:translateY(6px)}to{transform:none}}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Plano de saúde · Inclusão e exclusão</div>
+    <h1>Qual formulário é o seu?</h1>
+    <p class="lead">Digite a cidade onde você mora. Mostramos a operadora que atende sua região e o formulário certo.</p>
+  </header>
+
+  <form class="card" id="busca" autocomplete="off">
+    <label for="cidade">Cidade onde você mora</label>
+    <div class="row">
+      <input id="cidade" list="lista-cidades" placeholder="Ex.: Taubaté" required>
+      <button type="submit">Buscar</button>
+    </div>
+    <datalist id="lista-cidades"></datalist>
+    <div class="hint">Cidades com operadora regional:</div>
+    <div class="chips" id="chips"></div>
+  </form>
+
+  <section class="card result" id="resultado" hidden aria-live="polite"></section>
+
+  <footer>Diviplan · Atendimento por região</footer>
+</div>
+
+<script>
+const LINKS = {
+  araras:  "https://apoio-cyber.github.io/unimed-araras/?v=2",
+  vale:    "https://apoio-cyber.github.io/exclus-o-amil/adesao-unimed/",
+  inconf:  "https://apoio-cyber.github.io/unimed-inconfidentes/",
+  lorena:  "https://apoio-cyber.github.io/inclusao-unimed-lorena/",
+  amilDemitido: "https://apoio-cyber.github.io/exclus-o-amil/",
+  amilPedido:   "https://apoio-cyber.github.io/exclus-o-amil/demitidos/"
+};
+const OPERADORAS = {
+  araras: {nome:"Unimed Araras", plano:"Regional Plus Flex Enfermaria", tipo:"Exclusão / Inclusão", link:LINKS.araras,
+           nota:"Tenha em mãos a assinatura da empresa (Wlademir) para anexar no formulário."},
+  vale:   {nome:"Unimed Vale Novo Paulista", plano:"Unimed Vale Novo Paulista ENF", tipo:"Exclusão / Inclusão", link:LINKS.vale},
+  inconf: {nome:"Unimed Inconfidentes", plano:"Uni Master Empresa", tipo:"Exclusão", link:LINKS.inconf},
+  lorena: {nome:"Unimed Lorena", plano:"Unimed Lorena", tipo:"Exclusão / Inclusão", link:LINKS.lorena}
+};
+const CIDADES = {
+  "Araras":"araras", "Caçapava":"vale", "Itabirito":"inconf", "Jacareí":"vale",
+  "Jambeiro":"vale", "Lorena":"lorena", "Taubaté":"vale", "Tremembé":"lorena"
+};
+// plano específico de Tremembé difere do de Lorena
+const PLANO_CIDADE = {"Tremembé":"Regional Plus Flex / Enfermaria"};
+
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/\s+/g," ").trim();
+const INDEX = Object.fromEntries(Object.keys(CIDADES).map(c=>[norm(c),c]));
+
+const dl = document.getElementById("lista-cidades"), chips = document.getElementById("chips");
+Object.keys(CIDADES).forEach(c=>{
+  const o=document.createElement("option"); o.value=c; dl.appendChild(o);
+  const b=document.createElement("button"); b.type="button"; b.className="chip"; b.textContent=c;
+  b.onclick=()=>{document.getElementById("cidade").value=c; mostrar(c);}; chips.appendChild(b);
+});
+
+const esc = s => s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const res = document.getElementById("resultado");
+
+function mostrar(entrada){
+  const cidade = INDEX[norm(entrada)];
+  if(cidade){
+    const op = OPERADORAS[CIDADES[cidade]];
+    const plano = PLANO_CIDADE[cidade] || op.plano;
+    res.innerHTML = `
+      <div class="eyebrow">${esc(cidade)}</div>
+      <h2>${op.nome}</h2>
+      <p class="meta">Plano ${esc(plano)} · ${op.tipo}</p>
+      <div class="actions">
+        ${op.nota?`<div class="note">${op.nota}</div>`:""}
+        <a class="btn" href="${op.link}" target="_blank" rel="noopener">Abrir formulário ${op.nome} →</a>
+      </div>`;
+  } else {
+    res.innerHTML = `
+      <div class="eyebrow">${esc(entrada.trim())}</div>
+      <h2>GNDI</h2>
+      <p class="meta">Sua cidade não consta na relação de operadoras regionais.</p>
+      <div class="note">Sua cidade é atendida pela operadora <strong>GNDI</strong>. Em caso de dúvida, contate o RH.</div>`;
+  }
+  res.hidden = false;
+}
+
+document.getElementById("busca").addEventListener("submit",e=>{
+  e.preventDefault();
+  const v=document.getElementById("cidade").value;
+  if(v.trim()) mostrar(v);
+});
+</script>
+</body>
+</html>
