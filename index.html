@@ -95,6 +95,21 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dv-wa{color:#4ADE80;border-color:rgba(74,222,128,.45)}}
 :root[data-theme="dark"] .dv-wa{color:#4ADE80;border-color:rgba(74,222,128,.45)}
 @media (prefers-reduced-motion:no-preference){.result{animation:in .25s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+
+/* tabelas */
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-weight:600}
+.tbl td:last-child{white-space:nowrap}
+.tbl thead+tbody td:last-child,.tbl td:nth-child(2):not(:last-child){white-space:normal}
+.tblwrap{overflow-x:auto;padding:6px 10px}
+.ex-box{margin-top:12px;background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:14px}
+.apps .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.apps .btn{padding:8px 12px;font-size:14px}
+.apps p{margin:0;font-size:15px}
+.apps .appname{font-weight:700;color:var(--accent)}
 </style>
 </head>
 <body>
@@ -103,7 +118,7 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
   <header class="hero">
     <div class="eyebrow">Cucinare Pro Alimentação · Plano de saúde</div>
     <h1>Portal do plano de saúde</h1>
-    <p class="lead">Tudo sobre os planos em um só lugar: qual operadora atende cada cidade, documentos necessários, prazos e os formulários de inclusão e exclusão.</p>
+    <p class="lead">Tudo sobre os planos em um só lugar: qual operadora atende cada cidade, vigência, carências, documentos e os formulários de inclusão e exclusão.</p>
   </header>
 
   <!-- 1. Busca por cidade -->
@@ -113,7 +128,7 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
       <p class="sub" style="margin:0">Digite a cidade onde o funcionário mora.</p>
     </div>
     <form id="busca" class="row" autocomplete="off">
-      <label for="cidade" class="visually-hidden" style="position:absolute;left:-9999px">Cidade</label>
+      <label for="cidade" style="position:absolute;left:-9999px">Cidade</label>
       <input id="cidade" list="lista-cidades" placeholder="Ex.: Taubaté" required>
       <button type="submit">Buscar</button>
     </form>
@@ -129,45 +144,90 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
     <div class="grid" id="grid"></div>
   </section>
 
-  <!-- 3. Prazos e regras gerais -->
-  <section aria-labelledby="t-prazos">
-    <h2 class="sec" id="t-prazos">Prazos e vigência</h2>
-    <p class="sub">Regras que valem para todas as operadoras. Datas de vigência específicas aparecem no quadro de cada operadora.</p>
+  <!-- 3. Vigência -->
+  <section aria-labelledby="t-vig">
+    <h2 class="sec" id="t-vig">Quando o plano começa a valer</h2>
+    <p class="sub">A vigência muda conforme a operadora.</p>
+    <div class="card tblwrap">
+      <table class="tbl">
+        <thead><tr><th>Operadora</th><th>Inclusão do funcionário</th><th>Início da vigência</th></tr></thead>
+        <tbody>
+          <tr><td>Unimeds</td><td>Em até 30 dias da admissão (depois disso, há carências)</td><td>Imediata</td></tr>
+          <tr><td>Amil Saúde</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>Imediata</td></tr>
+          <tr><td>Amil Dental</td><td>Após os 90 dias de experiência (contados da admissão)</td><td><span class="pend">a confirmar</span></td></tr>
+          <tr><td>GNDI</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>1º dia do mês seguinte ao mês em que a inclusão foi enviada</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ex-box"><b>Exemplo GNDI:</b> funcionário admitido em 20/10/2026 → a inclusão é enviada em janeiro/2027 (após os 90 dias) → o plano vale a partir de <b>01/02/2027</b>.</div>
+  </section>
+
+  <!-- 4. Regras de dependentes e carências -->
+  <section aria-labelledby="t-regras">
+    <h2 class="sec" id="t-regras">Dependentes e carências</h2>
     <div class="cols">
       <div class="card">
-        <h3>Inclusão</h3>
+        <h3>Quem pode ser dependente</h3>
         <ul>
-          <li>Pedir a inclusão em até <b>30 dias da admissão</b>. Depois disso, há cumprimento de carências.</li>
-          <li>Dependentes aceitos: cônjuge ou companheiro(a), filhos, filhos adotivos e menores sob guarda. Enteados, pais e outros parentes não entram.</li>
-          <li>Todas as doenças conhecidas devem constar na Declaração de Saúde. Omitir pode levar ao cancelamento do plano.</li>
+          <li>Cônjuge ou companheiro(a), filhos, filhos adotivos e menores sob guarda.</li>
+          <li>Enteados, pais e outros parentes <b>não</b> podem ser incluídos.</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Exclusão por desligamento</h3>
+        <h3>Incluir só dependentes</h3>
         <ul>
-          <li>O <b>Termo de Rescisão (TRCT)</b> é obrigatório e segue junto com os formulários.</li>
-          <li>Quando o titular sai, os dependentes saem junto.</li>
-          <li>Demissão sem justa causa ou aposentadoria, com contribuição do funcionário: ele pode manter o plano pagando o valor integral (Lei 9.656/98, arts. 30 e 31) e tem até <b>30 dias</b> para decidir.</li>
-          <li>Portabilidade de carências: até <b>60 dias</b> após a comunicação.</li>
+          <li><b>Recém-nascidos e cônjuges:</b> até <b>30 dias</b> a contar do nascimento ou do casamento.</li>
+          <li><b>Vigência:</b> imediata em todas as operadoras, <b>exceto GNDI</b> (1º dia do mês seguinte ao envio da inclusão).</li>
+          <li><b>Titular já ativo no plano:</b> é obrigatório enviar uma <b>carta de próprio punho</b> pedindo a inclusão do dependente, junto com os documentos e os formulários da operadora.</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Documentos de inclusão</h3>
+        <h3>Carências (planos médicos)</h3>
+        <table class="tbl">
+          <tbody>
+            <tr><td>Urgência e emergência</td><td>24 horas</td></tr>
+            <tr><td>Consultas (rede própria)</td><td>30 dias</td></tr>
+            <tr><td>Consultas (rede credenciada)</td><td>30 dias</td></tr>
+            <tr><td>Exames especiais e internação</td><td>180 dias</td></tr>
+            <tr><td>Internação psiquiátrica</td><td>180 dias</td></tr>
+            <tr><td>Parto</td><td>300 dias</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Documentos -->
+  <section aria-labelledby="t-docs">
+    <h2 class="sec" id="t-docs">Documentos para inclusão</h2>
+    <p class="sub">Os documentos não são os mesmos para todas as operadoras.</p>
+    <div class="cols">
+      <div class="card">
+        <h3>Unimeds (Vale Novo, Lorena, Araras, Inconfidentes)</h3>
         <ul>
           <li><b>Titular:</b> RG, CPF, CTPS digital (dados pessoais e registro na Cucinare), comprovante de endereço e Cartão Nacional de Saúde (CNS).</li>
           <li><b>Cônjuge:</b> certidão de casamento ou declaração de união estável, RG, CPF e CNS.</li>
           <li><b>Filhos:</b> RG e CPF (ou certidão de nascimento) e CNS.</li>
           <li>O CNS tem 15 números: fica no cartão do SUS ou no app <b>Meu SUS Digital</b>.</li>
+          <li>Os <b>formulários da operadora</b>, gerados pelo link no quadro de cada Unimed.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>GNDI, Amil Saúde e Amil Dental</h3>
+        <ul>
+          <li><b>Formulário de adesão</b> ao plano.</li>
+          <li><b>Cônjuge:</b> RG, CPF e certidão de casamento ou de união estável.</li>
+          <li><b>Filhos:</b> RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 4. App -->
+  <!-- 6. App -->
   <section aria-labelledby="t-app">
     <h2 class="sec" id="t-app">App do convênio</h2>
-    <p class="sub">Depois da inclusão aprovada, o funcionário acessa a carteirinha digital, a rede credenciada e os boletos pelo app da operadora.</p>
-    <div class="cols" id="apps"></div>
+    <p class="sub">Depois da inclusão, o funcionário acessa a carteirinha digital, a rede credenciada e os serviços do plano pelo app da operadora.</p>
+    <div class="cols apps" id="apps"></div>
   </section>
 
   <footer class="dv">
@@ -182,79 +242,101 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
 <script>
 /* =========================================================
    DADOS — edite aqui para atualizar a página.
-   "vigencia" e "app": deixe "" enquanto não houver a informação
-   (aparece "a confirmar").
+   Campo vazio "" aparece como "a confirmar".
    ========================================================= */
+const UNIMED_APP = {nome:"Unimed", lojas:[
+  {t:"App Store", u:"https://unimed.me/appstore"},
+  {t:"Google Play", u:"https://unimed.me/googleplay"}]};
+
 const OPERADORAS = [
   {
-    id:"amil", nome:"Amil", plano:"Grupo Cucinare · FLV · Coletiva 7",
-    processos:["Exclusão"], cidades:"",
-    vigencia:"",
+    id:"amil", nome:"Amil Saúde e Amil Dental", plano:"Grupo Cucinare · FLV · Coletiva 7",
+    processos:["Inclusão","Exclusão"], cidades:"",
+    vigencia:"Inclusão após 90 dias de experiência · Saúde: vigência imediata",
     docs:{
+      "Inclusão":["Somente após os 90 dias de experiência","Formulário de adesão ao plano","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
       "Exclusão — desligado":["Busca pelo CPF do beneficiário (o plano ativo é localizado automaticamente)","Motivo: demitido pela empresa ou pedido de demissão","Data do desligamento"],
       "Exclusão — desistência":["Funcionário continua na empresa e pede só o cancelamento do plano","Buscar pelo CPF do titular","Escolher: titular + grupo familiar ou somente dependente(s)"],
-      "Assinatura":["O PDF já sai preenchido: não alterar, apenas conferir e assinar"]
+      "Assinatura":["O PDF de exclusão já sai preenchido: não alterar, apenas conferir e assinar"]
     },
     links:[{t:"Abrir exclusão Amil", u:"https://apoio-cyber.github.io/exclus-o-amil/"}],
-    app:{nome:"", obs:""}
+    breve:"Formulário de adesão Amil: em breve",
+    app:{nome:"Amil Clientes (saúde) e Amil Dental", obs:"O titular libera o acesso dos dependentes no app: menu → “Liberar acesso para dependentes”.",
+         guia:{t:"Guia do app (PDF)", u:"guias/app-amil.pdf"}, lojas:[]}
+  },
+  {
+    id:"gndi", nome:"GNDI", plano:"Hapvida NotreDame Intermédica",
+    processos:["Inclusão"], cidades:"Demais cidades (fora da lista regional)",
+    vigencia:"Inclusão após 90 dias de experiência · vigência no 1º dia do mês seguinte ao envio",
+    docs:{
+      "Inclusão":["Somente após os 90 dias de experiência","Formulário de adesão ao plano","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Vigência":["1º dia do mês seguinte ao mês em que a inclusão foi enviada","Ex.: admitido em 20/10/2026 → inclusão em janeiro/2027 → vigência em 01/02/2027"]
+    },
+    links:[],
+    breve:"Formulário de adesão GNDI: em breve",
+    app:{nome:"Hapvida NotreDame", obs:"No app, toque em “Fazer cadastro” e informe o CPF ou a carteirinha do titular. A senha tem 6 caracteres, com número, letra maiúscula, minúscula e caractere especial.",
+         guia:{t:"Manual do app (PDF)", u:"guias/app-gndi.pdf"},
+         lojas:[{t:"App Store", u:"https://apps.apple.com/us/app/hapvida-notredame/id1430190022"},{t:"Google Play", u:"https://play.google.com/store/apps/details?id=br.com.gndi.beneficiario.gndieasy"}]}
   },
   {
     id:"vale", nome:"Unimed Vale Novo Paulista", plano:"Unimed Flex Enfermaria",
     processos:["Inclusão","Exclusão"], cidades:"Caçapava, Jacareí, Jambeiro e Taubaté",
-    vigencia:"",
+    vigencia:"Imediata",
     docs:{
-      "Inclusão (funcionário)":["Gera Ficha Cadastral, Carta de Orientação e Declaração de Saúde","Até 4 filhos + cônjuge","Documentos do titular e dependentes (ver “Documentos de inclusão”)"],
+      "Inclusão (funcionário)":["Gera Ficha Cadastral, Carta de Orientação e Declaração de Saúde","Até 4 filhos + cônjuge","Documentos do titular e dependentes (ver “Documentos para inclusão”)"],
       "Exclusão (RH)":["TRCT obrigatório (dados lidos automaticamente)","Formulário de exclusão (Anexo IV): assinatura e carimbo do RH","Declaração do ex-empregado (Anexo V): assinatura do ex-funcionário","Enviar juntos: formulário, declaração e TRCT"]
     },
     links:[{t:"Abrir formulário Vale Novo", u:"https://apoio-cyber.github.io/exclus-o-amil/adesao-unimed/"}],
-    app:{nome:"", obs:""}
+    app:{...UNIMED_APP, obs:"O app novo substitui a versão antiga, que será desativada.", guia:{t:"Ver orientação do app", u:"guias/app-unimed-vale-novo.jpg"}}
   },
   {
     id:"lorena", nome:"Unimed Lorena", plano:"Unimed Lorena · Tremembé: Regional Plus Flex Enfermaria",
     processos:["Inclusão","Exclusão"], cidades:"Lorena e Tremembé",
-    vigencia:"",
+    vigencia:"Imediata",
     docs:{
       "Inclusão (funcionário)":["Gera Declaração de Saúde (11 págs.), Declaração MPS/GLC e Movimentação Cadastral","Declaração de Saúde: rubrica na pág. 1 e assinatura nas demais","Assinar MPS/GLC e Movimentação Cadastral","Digitalizar na ordem e entregar ao RH com os documentos"],
       "Exclusão (RH)":["Número da carteirinha Unimed","Solicitação de exclusão (já sai carimbada)","Comunicado e declaração de opção de manutenção (quando houver contribuição)","Movimentação Cadastral: assinatura do titular","Comunicado de extinção do vínculo: ex-empregado assina o protocolo","Se optar por manter o plano: ir à sede da Unimed Lorena em até 30 dias com comprovante de endereço, holerite com desconto e CTPS"]
     },
     links:[{t:"Abrir formulário Lorena", u:"https://apoio-cyber.github.io/inclusao-unimed-lorena/"}],
-    app:{nome:"", obs:""}
+    app:{...UNIMED_APP, obs:"O antigo app “Unimed Clientes SP” mudou para o app “Unimed”.", guia:{t:"Ver orientação do app", u:"guias/app-unimed-lorena.jpg"}}
   },
   {
     id:"araras", nome:"Unimed Araras", plano:"Unimed Anhanguera · Regional Plus Flex Enfermaria",
     processos:["Inclusão","Exclusão"], cidades:"Araras",
-    vigencia:"",
+    vigencia:"Imediata",
     docs:{
       "Inclusão (funcionário)":["Gera Carta de Orientação + Declaração de Saúde + Ficha de Cadastro","Até 3 dependentes","Colaborador assina: rubrica pág. 1, assinatura pág. 2 e pág. 11","Ficha de Cadastro: assinada só pela empresa e operadora","Com orientação médica: última página assinada e carimbada pelo médico"],
       "Exclusão (RH)":["Tipos: desligamento, pedido do beneficiário ou óbito","TRCT obrigatório no desligamento","Gera Planilha de Exclusão (CAD006) + Termo de Ciência (CAD001)","Colaborador assina a planilha e o termo"]
     },
     links:[{t:"Abrir formulário Araras", u:"https://apoio-cyber.github.io/unimed-araras/?v=2"}],
-    app:{nome:"", obs:""}
+    app:{...UNIMED_APP, obs:"Também é possível acessar pelo site da Unimed.", guia:{t:"Ver orientação do app", u:"guias/app-unimed-araras.jpg"},
+         lojas:[...UNIMED_APP.lojas,{t:"Site do beneficiário", u:"https://www.unimed.coop.br/site/beneficiario"}]}
   },
   {
     id:"inconf", nome:"Unimed Inconfidentes", plano:"Uni Master Empresa",
     processos:["Exclusão"], cidades:"Itabirito (Ouro Preto/MG)",
-    vigencia:"",
+    vigencia:"Imediata",
     docs:{
       "Exclusão (RH)":["Gera o Termo de comunicação de exclusão (AN.VEN.COM.008)","TRCT em PDF (nome, CPF, endereço e motivo preenchidos automaticamente)","Nome completo, CPF, endereço e telefone obrigatórios","Imprimir, assinar e carimbar no campo CONTRATANTE","Enviar junto com o termo de rescisão"]
     },
     links:[{t:"Abrir exclusão Inconfidentes", u:"https://apoio-cyber.github.io/unimed-inconfidentes/"}],
-    app:{nome:"", obs:""}
+    app:{nome:"Unimed Cliente", obs:"Guia médico também no site unimedinconfidentes.coop.br. Atendimento: 0800 283 0682.",
+         guia:{t:"Manual do cliente (PDF)", u:"guias/manual-unimed-inconfidentes.pdf"}, lojas:[]}
   }
 ];
 
-/* cidade → operadora (mesma relação da busca por cidade) */
+/* cidade → operadora */
 const CIDADES = {"Araras":"araras","Caçapava":"vale","Itabirito":"inconf","Jacareí":"vale",
   "Jambeiro":"vale","Lorena":"lorena","Taubaté":"vale","Tremembé":"lorena"};
 const PLANO_CIDADE = {"Tremembé":"Regional Plus Flex / Enfermaria"};
-
+const FORA_DA_LISTA = "gndi";
 
 /* ========================================================= */
 const esc = s => String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 const byId = Object.fromEntries(OPERADORAS.map(o=>[o.id,o]));
 const PEND = '<span class="pend">a confirmar</span>';
+const ext = u => /^https?:/.test(u) ? ' target="_blank" rel="noopener"' : ' target="_blank"';
 
-/* quadros das operadoras */
 document.getElementById("grid").innerHTML = OPERADORAS.map(o=>`
   <article class="card op" id="op-${o.id}">
     <header>
@@ -264,22 +346,25 @@ document.getElementById("grid").innerHTML = OPERADORAS.map(o=>`
     <div class="tags">${o.processos.map(p=>`<span class="tag ${p==="Exclusão"?"ex":""}">${p}</span>`).join("")}</div>
     <p class="cidades"><b>Cidades:</b> ${o.cidades?esc(o.cidades):PEND}</p>
     <p class="cidades"><b>Vigência:</b> ${o.vigencia?esc(o.vigencia):PEND}</p>
-    ${o.nota?`<div class="note">${esc(o.nota)}</div>`:""}
     <details><summary>Documentos e assinaturas</summary><div class="dbody">
       ${Object.entries(o.docs).map(([k,v])=>`<h4>${esc(k)}</h4><ul>${v.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`).join("")}
     </div></details>
-    <div class="actions">${o.links.map(l=>`<a class="btn" href="${l.u}" target="_blank" rel="noopener">${esc(l.t)} →</a>`).join("")}</div>
+    <div class="actions">
+      ${o.links.map(l=>`<a class="btn" href="${l.u}"${ext(l.u)}>${esc(l.t)} →</a>`).join("")}
+      ${o.breve?`<span class="btn alt" aria-disabled="true" style="cursor:default;opacity:.7">${esc(o.breve)}</span>`:""}
+    </div>
   </article>`).join("");
 
-/* app de cada operadora */
 document.getElementById("apps").innerHTML = OPERADORAS.map(o=>`
   <div class="card">
     <h3>${esc(o.nome)}</h3>
-    <ul>
-      <li><b>App:</b> ${o.app.nome?esc(o.app.nome):PEND}</li>
-      ${o.app.obs?`<li>${esc(o.app.obs)}</li>`:""}
-      <li>Baixe na Play Store (Android) ou App Store (iPhone).</li>
-    </ul>
+    <p>App: <span class="appname">${o.app.nome?esc(o.app.nome):PEND}</span></p>
+    ${o.app.obs?`<p class="sub" style="margin:6px 0 0">${esc(o.app.obs)}</p>`:""}
+    <div class="btns">
+      ${(o.app.lojas||[]).map(l=>`<a class="btn alt" href="${l.u}"${ext(l.u)}>${esc(l.t)}</a>`).join("")}
+      ${o.app.guia?`<a class="btn" href="${o.app.guia.u}"${ext(o.app.guia.u)}>${esc(o.app.guia.t)}</a>`:""}
+    </div>
+    ${(o.app.lojas||[]).length?"":`<p class="sub" style="margin:10px 0 0">Procure pelo nome do app na App Store (iPhone) ou Google Play (Android).</p>`}
   </div>`).join("");
 
 /* busca por cidade */
@@ -294,24 +379,16 @@ Object.keys(CIDADES).forEach(c=>{
 const res = document.getElementById("resultado");
 function mostrar(entrada){
   const cidade = INDEX[norm(entrada)];
+  const op = byId[cidade ? CIDADES[cidade] : FORA_DA_LISTA];
+  const plano = (cidade && PLANO_CIDADE[cidade]) || op.plano;
   document.querySelectorAll(".op.hl").forEach(e=>e.classList.remove("hl"));
-  if(!cidade){
-    res.innerHTML = `
-      <div class="eyebrow">${esc(entrada.trim())}</div>
-      <h3>GNDI</h3>
-      <p>A cidade não está na lista de operadoras regionais.</p>
-      <div class="note">Esta cidade é atendida pela operadora <strong>GNDI</strong>. Em caso de dúvida, fale com o RH ou com a Diviplan.</div>`;
-    res.hidden = false; return;
-  }
-  const op = byId[CIDADES[cidade]];
-  const plano = PLANO_CIDADE[cidade] || op.plano;
   res.innerHTML = `
-    <div class="eyebrow">${esc(cidade)}</div>
+    <div class="eyebrow">${esc(cidade || entrada.trim())}</div>
     <h3>${esc(op.nome)}</h3>
-    <p>Plano ${esc(plano)} · ${op.processos.join(" / ")}</p>
+    <p>${cidade ? "Plano "+esc(plano) : "Cidade fora da lista de operadoras regionais: atendida pela "+esc(op.nome)+"."} · Vigência: ${esc(op.vigencia)}</p>
     <div class="row">
-      <a class="btn" href="${op.links[0].u}" target="_blank" rel="noopener">Abrir formulário →</a>
-      <a class="btn alt" href="#op-${op.id}" id="ver">Ver documentos</a>
+      ${op.links[0]?`<a class="btn" href="${op.links[0].u}" target="_blank" rel="noopener">Abrir formulário →</a>`:""}
+      <a class="btn ${op.links[0]?"alt":""}" href="#op-${op.id}" id="ver">Ver documentos</a>
     </div>`;
   res.hidden = false;
   document.getElementById("ver").onclick = e => {
