@@ -9,25 +9,28 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap">
 <style>
 :root{
-  --bg:#f3f6f8; --surface:#ffffff; --surface-2:#f8fafc; --fg:#14262f; --muted:#5a6b73;
-  --line:#d9e2e7; --accent:#1468b3; --accent-fg:#ffffff; --accent-soft:#e3eff9;
-  --ok:#1f6b52; --ok-soft:#e2f0ea; --warn:#8a5a00; --warn-soft:#fbf1dc;
+  --bg:#f2f7fb; --surface:#ffffff; --surface-2:#f7fbfe; --fg:#0d2a3d; --muted:#4f6a7c;
+  --line:#d3e3ee; --accent:#005f95; --accent-2:#0088bd; --accent-fg:#ffffff; --accent-soft:#e1f0f8;
+  --ok:#005f95; --ok-soft:#e1f0f8; --ex:#0088bd; --ex-soft:#ffffff;
   --display:"Fraunces",Georgia,serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0e1519; --surface:#152027; --surface-2:#1a2730; --fg:#e3edf2; --muted:#9bb0ba;
-  --line:#283943; --accent:#6db3ef; --accent-fg:#0a1a26; --accent-soft:#183247;
-  --ok:#5fc49c; --ok-soft:#1c3a2f; --warn:#f0c26a; --warn-soft:#3a2f17; color-scheme:dark}}
+  --bg:#081824; --surface:#0f2232; --surface-2:#132a3c; --fg:#e3eff7; --muted:#9ab6c9;
+  --line:#21405a; --accent:#4fb3e6; --accent-2:#7cc8ee; --accent-fg:#06192a; --accent-soft:#143650;
+  --ok:#7cc8ee; --ok-soft:#143650; --ex:#7cc8ee; --ex-soft:#0f2232; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0e1519; --surface:#152027; --surface-2:#1a2730; --fg:#e3edf2; --muted:#9bb0ba;
-  --line:#283943; --accent:#6db3ef; --accent-fg:#0a1a26; --accent-soft:#183247;
-  --ok:#5fc49c; --ok-soft:#1c3a2f; --warn:#f0c26a; --warn-soft:#3a2f17; color-scheme:dark}
+  --bg:#081824; --surface:#0f2232; --surface-2:#132a3c; --fg:#e3eff7; --muted:#9ab6c9;
+  --line:#21405a; --accent:#4fb3e6; --accent-2:#7cc8ee; --accent-fg:#06192a; --accent-soft:#143650;
+  --ok:#7cc8ee; --ok-soft:#143650; --ex:#7cc8ee; --ex-soft:#0f2232; color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:36px 40px}
 .wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 a{color:var(--accent)}
+.hero{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-radius:20px;padding:28px 24px}
+.hero .eyebrow{color:rgba(255,255,255,.85)}
+.hero .lead{color:rgba(255,255,255,.9)}
 .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 h1{font-family:var(--display);font-weight:600;font-size:clamp(30px,6vw,42px);line-height:1.1;margin:6px 0 10px;text-wrap:balance}
 h2.sec{font-family:var(--display);font-weight:600;font-size:24px;margin:0 0 4px}
@@ -59,10 +62,10 @@ button:focus-visible,.btn:focus-visible,summary:focus-visible{outline:3px solid 
 .op .plano{color:var(--muted);font-size:14px;margin:0}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
-.tag.ex{background:var(--warn-soft);color:var(--warn)}
+.tag.ex{background:var(--ex-soft);color:var(--ex);box-shadow:inset 0 0 0 1.5px var(--ex)}
 .cidades{font-size:14px;margin:0}
 .cidades b{font-weight:600}
-.note{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:9px 12px;font-size:14px}
+.note{background:var(--accent-soft);color:var(--fg);border-left:4px solid var(--accent-2);border-radius:10px;padding:9px 12px;font-size:14px}
 details{border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
 details+details{margin-top:-4px}
 summary{cursor:pointer;padding:10px 12px;font-weight:600;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center}
@@ -97,7 +100,7 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
 <body>
 <div class="wrap">
 
-  <header>
+  <header class="hero">
     <div class="eyebrow">Cucinare Pro Alimentação · Plano de saúde</div>
     <h1>Portal do plano de saúde</h1>
     <p class="lead">Tudo sobre os planos em um só lugar: qual operadora atende cada cidade, documentos necessários, prazos e os formulários de inclusão e exclusão.</p>
@@ -221,7 +224,6 @@ const OPERADORAS = [
     id:"araras", nome:"Unimed Araras", plano:"Unimed Anhanguera · Regional Plus Flex Enfermaria",
     processos:["Inclusão","Exclusão"], cidades:"Araras",
     vigencia:"",
-    nota:"Antes de usar, carregue o carimbo + assinatura da empresa (Wlademir) no botão “Carimbo da empresa”. Fica salvo só naquele computador.",
     docs:{
       "Inclusão (funcionário)":["Gera Carta de Orientação + Declaração de Saúde + Ficha de Cadastro","Até 3 dependentes","Colaborador assina: rubrica pág. 1, assinatura pág. 2 e pág. 11","Ficha de Cadastro: assinada só pela empresa e operadora","Com orientação médica: última página assinada e carimbada pelo médico"],
       "Exclusão (RH)":["Tipos: desligamento, pedido do beneficiário ou óbito","TRCT obrigatório no desligamento","Gera Planilha de Exclusão (CAD006) + Termo de Ciência (CAD001)","Colaborador assina a planilha e o termo"]
