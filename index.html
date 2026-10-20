@@ -153,12 +153,13 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
         <thead><tr><th>Operadora</th><th>Inclusão do funcionário</th><th>Início da vigência</th></tr></thead>
         <tbody>
           <tr><td>Unimeds</td><td>Em até 30 dias da admissão (depois disso, há carências)</td><td>Imediata</td></tr>
-          <tr><td>Amil Saúde</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>Imediata</td></tr>
+          <tr><td>Amil Saúde</td><td>Em até 30 dias da admissão</td><td>Imediata</td></tr>
           <tr><td>Amil Dental</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>Imediata</td></tr>
           <tr><td>GNDI</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>1º dia do mês seguinte ao mês em que a inclusão foi enviada</td></tr>
         </tbody>
       </table>
     </div>
+    <div class="ex-box" style="border-left:4px solid var(--accent-2)"><b>Importante:</b> a inclusão é feita no prazo de cada operadora (30 ou 90 dias), mas os <b>documentos devem ser enviados pelo portal Entre Nós logo na admissão</b>, assim que estiverem disponíveis. Não é preciso esperar os 90 dias para enviar.</div>
     <div class="ex-box"><b>Exemplo GNDI:</b> funcionário admitido em 20/10/2026 → a inclusão é enviada em janeiro/2027 (após os 90 dias) → o plano vale a partir de <b>01/02/2027</b>.</div>
   </section>
 
@@ -179,6 +180,13 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
           <li><b>Recém-nascidos e cônjuges:</b> até <b>30 dias</b> a contar do nascimento ou do casamento.</li>
           <li><b>Vigência:</b> imediata em todas as operadoras, <b>exceto GNDI</b> (1º dia do mês seguinte ao envio da inclusão).</li>
           <li><b>Titular já ativo no plano:</b> é obrigatório enviar uma <b>carta de próprio punho</b> pedindo a inclusão do dependente, junto com os documentos e os formulários da operadora.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Cancelamento a pedido</h3>
+        <ul>
+          <li>Vale para <b>todas as operadoras</b>: quando o funcionário <b>continua na empresa</b> e só quer cancelar o plano (dele ou de dependentes).</li>
+          <li>É obrigatório enviar uma <b>carta de próprio punho</b> pedindo o cancelamento, junto com o formulário da operadora.</li>
         </ul>
       </div>
       <div class="card">
@@ -252,11 +260,11 @@ const OPERADORAS = [
   {
     id:"amil", nome:"Amil Saúde e Amil Dental", plano:"Grupo Cucinare · FLV · Coletiva 7",
     processos:["Inclusão","Exclusão"], cidades:"",
-    vigencia:"Inclusão após 90 dias de experiência · vigência imediata (saúde e dental)",
+    vigencia:"Saúde: inclusão em até 30 dias da admissão · Dental: após 90 dias de experiência · vigência imediata",
     docs:{
-      "Inclusão":["Somente após os 90 dias de experiência","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
-      "Exclusão — desligado":["Busca pelo CPF do beneficiário (o plano ativo é localizado automaticamente)","Motivo: demitido pela empresa ou pedido de demissão","Data do desligamento"],
-      "Exclusão — desistência":["Funcionário continua na empresa e pede só o cancelamento do plano","Buscar pelo CPF do titular","Escolher: titular + grupo familiar ou somente dependente(s)"],
+      "Inclusão":["Amil Saúde: inclusão em até 30 dias da admissão","Amil Dental: inclusão após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Exclusão — desligado":["Formulário Amil assinado (gerado pelo link de exclusão)"],
+      "Exclusão — desistência (continua na empresa)":["Formulário Amil assinado (gerado pelo link de exclusão)","Carta de próprio punho pedindo o cancelamento"],
       "Assinatura":["O PDF de exclusão já sai preenchido: não alterar, apenas conferir e assinar"]
     },
     links:[{t:"Abrir exclusão Amil", u:"https://apoio-cyber.github.io/exclus-o-amil/"}],
@@ -269,7 +277,7 @@ const OPERADORAS = [
     processos:["Inclusão"], cidades:"Demais cidades (fora da lista regional)",
     vigencia:"Inclusão após 90 dias de experiência · vigência no 1º dia do mês seguinte ao envio",
     docs:{
-      "Inclusão":["Somente após os 90 dias de experiência","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Inclusão":["A inclusão é feita após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
       "Vigência":["1º dia do mês seguinte ao mês em que a inclusão foi enviada","Ex.: admitido em 20/10/2026 → inclusão em janeiro/2027 → vigência em 01/02/2027"]
     },
     links:[],
@@ -283,7 +291,7 @@ const OPERADORAS = [
     processos:["Inclusão","Exclusão"], cidades:"Caçapava, Jacareí, Jambeiro e Taubaté",
     vigencia:"Imediata",
     docs:{
-      "Inclusão (funcionário)":["Gera Ficha Cadastral, Carta de Orientação e Declaração de Saúde","Até 4 filhos + cônjuge","Documentos do titular e dependentes (ver “Documentos para inclusão”)"],
+      "Inclusão (funcionário)":["Formulários de inclusão da operadora (gerados pelo link)","Até 4 filhos + cônjuge","Documentos do titular e dependentes (ver “Documentos para inclusão”)"],
       "Exclusão (RH)":["TRCT obrigatório (dados lidos automaticamente)","Formulário de exclusão (Anexo IV): assinatura e carimbo do RH","Declaração do ex-empregado (Anexo V): assinatura do ex-funcionário","Enviar juntos: formulário, declaração e TRCT"]
     },
     links:[{t:"Abrir formulário Vale Novo", u:"https://apoio-cyber.github.io/exclus-o-amil/adesao-unimed/"}],
