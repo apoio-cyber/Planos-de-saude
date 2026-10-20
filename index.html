@@ -209,6 +209,17 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
   <section aria-labelledby="t-docs">
     <h2 class="sec" id="t-docs">Documentos para inclusão</h2>
     <p class="sub">Os documentos não são os mesmos para todas as operadoras.</p>
+    <div class="card" style="border-left:5px solid var(--accent-2);margin-bottom:16px">
+      <h3 style="margin:0 0 8px;font-size:17px">Atenção: formulários e documentos são documentos oficiais</h3>
+      <p style="margin:0 0 8px;font-size:15px">Trate com cuidado. Documento enviado de qualquer jeito atrasa ou impede a inclusão.</p>
+      <ul style="margin:0;padding-left:18px;font-size:15px">
+        <li><b>Não rasure</b> os formulários. Se errar, preencha um novo.</li>
+        <li>Digitalize <b>a folha inteira</b>, sem cortar nenhuma parte do documento.</li>
+        <li><b>RG sempre frente e verso.</b></li>
+        <li>Salve cada arquivo com o <b>nome do dono do documento</b> (ex.: <i>RG frente e verso - Maria da Silva</i>), para que a frente e o verso não se percam.</li>
+        <li>Fotos e cópias precisam estar <b>legíveis</b>.</li>
+      </ul>
+    </div>
     <div class="cols">
       <div class="card">
         <h3>Unimeds (Vale Novo, Lorena, Araras, Inconfidentes)</h3>
@@ -259,7 +270,7 @@ const UNIMED_APP = {nome:"Unimed", lojas:[
 const OPERADORAS = [
   {
     id:"amil", nome:"Amil Saúde e Amil Dental", plano:"Grupo Cucinare · FLV · Coletiva 7",
-    processos:["Inclusão","Exclusão"], cidades:"",
+    processos:["Inclusão","Exclusão"], cidades:"Amil Dental: todas as regiões · Amil Saúde: a confirmar",
     vigencia:"Saúde: inclusão em até 30 dias da admissão · Dental: após 90 dias de experiência · vigência imediata",
     docs:{
       "Inclusão":["Amil Saúde: inclusão em até 30 dias da admissão","Amil Dental: inclusão após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
@@ -278,6 +289,7 @@ const OPERADORAS = [
     vigencia:"Inclusão após 90 dias de experiência · vigência no 1º dia do mês seguinte ao envio",
     docs:{
       "Inclusão":["A inclusão é feita após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Escolha do plano":["O funcionário escolhe o plano de acordo com o valor que concorda em ter descontado em folha","Planos regionais Smart 200 por cidade (veja a busca por cidade no topo)","Smart 300, 400 e 500 atendem todas as localidades"],
       "Vigência":["1º dia do mês seguinte ao mês em que a inclusão foi enviada","Ex.: admitido em 20/10/2026 → inclusão em janeiro/2027 → vigência em 01/02/2027"]
     },
     links:[],
@@ -339,6 +351,20 @@ const CIDADES = {"Araras":"araras","Caçapava":"vale","Itabirito":"inconf","Jaca
 const PLANO_CIDADE = {"Tremembé":"Regional Plus Flex / Enfermaria"};
 const FORA_DA_LISTA = "gndi";
 
+/* GNDI: plano regional Smart 200 por cidade (conforme formulário de adesão GNDI) */
+const GNDI_REGIAO = {
+  "SMART 200 SP OESTE ENFERMARIA":["Barueri","Carapicuíba","Cotia","Embu das Artes","Itapevi","Mogi das Cruzes","Osasco","Taboão da Serra"],
+  "SMART 200 SP ABC ENFERMARIA":["Cubatão","Diadema","Mauá","Santo André","Santos","São Bernardo do Campo","São Vicente"],
+  "SMART 200 SP ALTO TIETÊ ENFERMARIA":["Arujá","Itaquaquecetuba","Suzano"],
+  "SMART 200 SP GUARULHOS ENFERMARIA":["Guarulhos"],
+  "SMART 200 SP JUNDIAÍ ENFERMARIA":["Itupeva","Jundiaí","Vargem Grande Paulista","Várzea Paulista"],
+  "SMART 200 SP CAPITAL ENFERMARIA":["São Paulo"]
+};
+const GNDI_BASICO = "SMART 200 SP ENFERMARIA (plano básico, para cidades fora das opções regionais)";
+const GNDI_CIDADE = {};
+Object.entries(GNDI_REGIAO).forEach(([pl,cs])=>cs.forEach(c=>GNDI_CIDADE[c]=pl));
+const AVISO_DOCS = "Documentos devem ser enviados completos, sem rasuras e sem cortes. RG sempre frente e verso, com o arquivo salvo no nome do dono do documento.";
+
 /* ========================================================= */
 const esc = s => String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 const byId = Object.fromEntries(OPERADORAS.map(o=>[o.id,o]));
@@ -379,6 +405,9 @@ document.getElementById("apps").innerHTML = OPERADORAS.map(o=>`
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/\s+/g," ").trim();
 const INDEX = Object.fromEntries(Object.keys(CIDADES).map(c=>[norm(c),c]));
 const dl = document.getElementById("lista-cidades"), chips = document.getElementById("chips");
+const GINDEX = Object.fromEntries(Object.keys(GNDI_CIDADE).map(c=>[norm(c),c]));
+GINDEX[norm("São Paulo Capital")]="São Paulo"; GINDEX[norm("SP")]="São Paulo";
+Object.keys(GNDI_CIDADE).forEach(c=>{const o=document.createElement("option"); o.value=c; dl.appendChild(o);});
 Object.keys(CIDADES).forEach(c=>{
   const o=document.createElement("option"); o.value=c; dl.appendChild(o);
   const b=document.createElement("button"); b.type="button"; b.className="chip"; b.textContent=c;
@@ -387,13 +416,26 @@ Object.keys(CIDADES).forEach(c=>{
 const res = document.getElementById("resultado");
 function mostrar(entrada){
   const cidade = INDEX[norm(entrada)];
+  const gcid = cidade ? null : GINDEX[norm(entrada)];
   const op = byId[cidade ? CIDADES[cidade] : FORA_DA_LISTA];
   const plano = (cidade && PLANO_CIDADE[cidade]) || op.plano;
+  const nomeCidade = cidade || gcid || entrada.trim();
   document.querySelectorAll(".op.hl").forEach(e=>e.classList.remove("hl"));
+  let linha, extra = "";
+  if(cidade){
+    linha = "Plano " + esc(plano);
+  } else {
+    const reg = gcid ? GNDI_CIDADE[gcid] : GNDI_BASICO;
+    linha = "Plano regional: <b>" + esc(reg) + "</b>";
+    extra = `<div class="note">O funcionário escolhe o plano de acordo com o valor que concorda em ter descontado em folha. Os planos Smart 300, 400 e 500 atendem todas as localidades.</div>`;
+  }
   res.innerHTML = `
-    <div class="eyebrow">${esc(cidade || entrada.trim())}</div>
+    <div class="eyebrow">${esc(nomeCidade)}</div>
     <h3>${esc(op.nome)}</h3>
-    <p>${cidade ? "Plano "+esc(plano) : "Cidade fora da lista de operadoras regionais: atendida pela "+esc(op.nome)+"."} · Vigência: ${esc(op.vigencia)}</p>
+    <p>${linha} · Vigência: ${esc(op.vigencia)}</p>
+    ${extra}
+    <p style="margin:10px 0 12px"><b>Plano dental:</b> Amil Dental atende todas as regiões.</p>
+    <div class="note" style="margin-bottom:12px">${esc(AVISO_DOCS)}</div>
     <div class="row">
       ${op.links[0]?`<a class="btn" href="${op.links[0].u}" target="_blank" rel="noopener">Abrir formulário →</a>`:(op.downloads||[]).map(d=>`<a class="btn" href="${d.u}" download>${esc(d.t)} ↓</a>`).join("")}
       <a class="btn alt" href="#op-${op.id}" id="ver">Ver documentos</a>
