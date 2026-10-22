@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Portal Plano de Saúde</title>
-<meta name="description" content="Planos de saúde Cucinare: operadoras, documentos, prazos e formulários de inclusão e exclusão.">
+<title>Portal Plano de Saúde · Diviplan</title>
+<meta name="description" content="Diviplan, corretora parceira da Cucinare. Planos de saúde: operadoras, documentos, prazos e formulários de inclusão e exclusão.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap">
 <style>
@@ -31,6 +31,18 @@ a{color:var(--accent)}
 .hero{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-radius:20px;padding:28px 24px}
 .hero .eyebrow{color:rgba(255,255,255,.85)}
 .hero .lead{color:rgba(255,255,255,.9)}
+.hero{display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
+.brand .chip-logo{background:#fff;border-radius:12px;padding:8px 14px;display:inline-flex;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.brand .chip-logo img{display:block;width:auto}
+.brand .dv img{height:44px}
+.brand .cu{padding:10px 14px}
+.brand .cu img{height:22px}
+.brand .partner{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.hero h1{margin:0 0 10px}
+.hero .by{margin:12px 0 0;font-size:14px;color:rgba(255,255,255,.85)}
+.hero .by b{color:#fff}
+@media (max-width:480px){.brand .dv img{height:36px}.brand .cu img{height:18px}}
 .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 h1{font-family:var(--display);font-weight:600;font-size:clamp(30px,6vw,42px);line-height:1.1;margin:6px 0 10px;text-wrap:balance}
 h2.sec{font-family:var(--display);font-weight:600;font-size:24px;margin:0 0 4px}
@@ -116,9 +128,17 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
 <div class="wrap">
 
   <header class="hero">
-    <div class="eyebrow">Cucinare Pro Alimentação · Plano de saúde</div>
-    <h1>Portal do plano de saúde</h1>
-    <p class="lead">Tudo sobre os planos em um só lugar: qual operadora atende cada cidade, vigência, carências, documentos e os formulários de inclusão e exclusão.</p>
+    <div class="brand">
+      <span class="chip-logo dv"><img src="img/diviplan.png" alt="Diviplan"></span>
+      <span class="partner">corretora parceira da</span>
+      <span class="chip-logo cu"><img src="img/cucinare.png" alt="Cucinare"></span>
+    </div>
+    <div>
+      <div class="eyebrow">Diviplan · Corretora de planos de saúde</div>
+      <h1>Portal do plano de saúde</h1>
+      <p class="lead">Tudo sobre os planos em um só lugar: qual operadora atende cada cidade, vigência, carências, documentos e os formulários de inclusão e exclusão.</p>
+      <p class="by">Um serviço da <b>Diviplan</b> para os colaboradores da Cucinare Pro Alimentação.</p>
+    </div>
   </header>
 
   <!-- 1. Busca por cidade -->
