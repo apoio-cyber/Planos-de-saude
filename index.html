@@ -122,6 +122,15 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
 .apps .btn{padding:8px 12px;font-size:14px}
 .apps p{margin:0;font-size:15px}
 .apps .appname{font-weight:700;color:var(--accent)}
+.btn.cov{background:var(--accent-2);color:#fff}
+dialog.cov-dlg{border:0;padding:0;border-radius:16px;max-width:min(760px,calc(100vw - 24px));width:100%;max-height:calc(100vh - 24px);background:var(--surface);color:var(--fg);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
+.cov-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--line);z-index:1}
+.cov-head h3{margin:0;font-size:17px}
+.cov-head .x{background:transparent;color:var(--fg);border:1.5px solid var(--line);padding:6px 12px}
+.cov-body{padding:12px}
+.cov-body img{display:block;width:100%;height:auto;border-radius:10px}
+.cov-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 </style>
 </head>
 <body>
@@ -277,6 +286,11 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
   </footer>
 </div>
 
+<dialog class="cov-dlg" id="cov" aria-labelledby="cov-t">
+  <div class="cov-head"><h3 id="cov-t"></h3><button type="button" class="x" id="cov-x">Fechar ✕</button></div>
+  <div class="cov-body"><img id="cov-img" alt=""><div class="cov-links" id="cov-links"></div></div>
+</dialog>
+
 <script>
 /* =========================================================
    DADOS — edite aqui para atualizar a página.
@@ -298,6 +312,7 @@ const OPERADORAS = [
       "Assinatura":["O PDF de exclusão já sai preenchido: não alterar, apenas conferir e assinar"]
     },
     links:[{t:"Abrir exclusão Amil", u:"https://apoio-cyber.github.io/exclus-o-amil/"}],
+    cobertura:{img:"coberturas/cobertura-amil-dental.jpg", t:"Coberturas Amil Dental", rede:"https://www.amil.com.br/institucional/#/servicos/saude/rede-credenciada/amil/busca-avancada"},
     downloads:[{t:"Baixar adesão Amil Dental (PDF)", u:"formularios/adesao-amil-dental-2026.pdf"}],
     app:{nome:"Amil Dental", obs:"O titular libera o acesso dos dependentes no app: menu → “Liberar acesso para dependentes”.",
          guia:{t:"Guia do app (PDF)", u:"guias/app-amil.pdf"}, lojas:[]}
@@ -312,6 +327,7 @@ const OPERADORAS = [
       "Vigência":["1º dia do mês seguinte ao mês em que a inclusão foi enviada","Ex.: admitido em 20/10/2026 → inclusão em janeiro/2027 → vigência em 01/02/2027"]
     },
     links:[],
+    cobertura:{img:"coberturas/cobertura-gndi.jpg", t:"Coberturas GNDI"},
     downloads:[{t:"Baixar adesão GNDI (PDF)", u:"formularios/adesao-gndi-notredame-2026.pdf"}],
     app:{nome:"Hapvida NotreDame", obs:"No app, toque em “Fazer cadastro” e informe o CPF ou a carteirinha do titular. A senha tem 6 caracteres, com número, letra maiúscula, minúscula e caractere especial.",
          guia:{t:"Manual do app (PDF)", u:"guias/app-gndi.pdf"},
@@ -406,6 +422,7 @@ document.getElementById("grid").innerHTML = OPERADORAS.map(o=>`
     </div></details>
     <div class="actions">
       ${o.links.map(l=>`<a class="btn" href="${l.u}"${ext(l.u)}>${esc(l.t)} →</a>`).join("")}
+      ${o.cobertura?`<button type="button" class="btn cov" data-op="${o.id}">Verificar cobertura</button>`:""}
       ${(o.downloads||[]).map(d=>`<a class="btn alt" href="${d.u}" download>${esc(d.t)} ↓</a>`).join("")}
     </div>
   </article>`).join("");
@@ -472,6 +489,20 @@ function mostrar(entrada){
 document.getElementById("busca").addEventListener("submit",e=>{
   e.preventDefault(); const v=document.getElementById("cidade").value; if(v.trim()) mostrar(v);
 });
+/* janela de cobertura */
+const dlg=document.getElementById("cov");
+function abrirCobertura(id){
+  const c=byId[id].cobertura;
+  document.getElementById("cov-t").textContent=c.t;
+  const im=document.getElementById("cov-img"); im.src=c.img; im.alt=c.t;
+  document.getElementById("cov-links").innerHTML=
+    (c.rede?`<a class="btn" href="${c.rede}" target="_blank" rel="noopener">Consultar rede credenciada →</a>`:"")+
+    `<a class="btn alt" href="${c.img}" target="_blank">Abrir imagem em tela cheia</a>`;
+  if(dlg.showModal) dlg.showModal(); else window.open(c.img,"_blank");
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".cov"); if(b) abrirCobertura(b.dataset.op);});
+document.getElementById("cov-x").onclick=()=>dlg.close();
+dlg.addEventListener("click",e=>{if(e.target===dlg) dlg.close();});
 </script>
 </body>
 </html>
