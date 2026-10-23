@@ -288,7 +288,7 @@ dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
 
 <dialog class="cov-dlg" id="cov" aria-labelledby="cov-t">
   <div class="cov-head"><h3 id="cov-t"></h3><button type="button" class="x" id="cov-x">Fechar ✕</button></div>
-  <div class="cov-body"><img id="cov-img" alt=""><div class="cov-links" id="cov-links"></div></div>
+  <div class="cov-body"><div class="cov-links" id="cov-links" style="margin:0 0 12px"></div><img id="cov-img" alt=""></div>
 </dialog>
 
 <script>
@@ -423,6 +423,7 @@ document.getElementById("grid").innerHTML = OPERADORAS.map(o=>`
     <div class="actions">
       ${o.links.map(l=>`<a class="btn" href="${l.u}"${ext(l.u)}>${esc(l.t)} →</a>`).join("")}
       ${o.cobertura?`<button type="button" class="btn cov" data-op="${o.id}">Verificar cobertura</button>`:""}
+      ${o.cobertura&&o.cobertura.rede?`<a class="btn alt" href="${o.cobertura.rede}" target="_blank" rel="noopener">Consultar rede credenciada →</a>`:""}
       ${(o.downloads||[]).map(d=>`<a class="btn alt" href="${d.u}" download>${esc(d.t)} ↓</a>`).join("")}
     </div>
   </article>`).join("");
