@@ -382,6 +382,8 @@ const GNDI_REGIAO = {
 const GNDI_BASICO = "SMART 200 SP ENFERMARIA · Outras localidades (plano básico)";
 const GNDI_CIDADE = {};
 Object.entries(GNDI_REGIAO).forEach(([pl,cs])=>cs.forEach(c=>GNDI_CIDADE[c]=pl));
+/* cidades com plano específico não oferecido aos funcionários: vinculadas ao Smart 200 básico */
+["Sorocaba"].forEach(c=>GNDI_CIDADE[c]=GNDI_BASICO);
 const AVISO_DOCS = "Documentos devem ser enviados completos, sem rasuras e sem cortes. RG sempre frente e verso, com o arquivo salvo no nome do dono do documento.";
 
 /* ========================================================= */
