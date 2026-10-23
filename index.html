@@ -250,13 +250,24 @@ dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
     </div>
     <div class="cols">
       <div class="card">
-        <h3>Unimeds (Vale Novo, Lorena, Araras, Inconfidentes)</h3>
+        <h3>Unimeds (Vale Novo, Lorena, Araras)</h3>
         <ul>
           <li><b>Titular:</b> RG, CPF, CTPS digital (dados pessoais e registro na Cucinare), comprovante de endereço e Cartão Nacional de Saúde (CNS).</li>
           <li><b>Cônjuge:</b> certidão de casamento ou declaração de união estável, RG, CPF e CNS.</li>
           <li><b>Filhos:</b> RG e CPF (ou certidão de nascimento) e CNS.</li>
           <li>O CNS tem 15 números: fica no cartão do SUS ou no app <b>Meu SUS Digital</b>.</li>
           <li>Os <b>formulários da operadora</b>, gerados pelo link no quadro de cada Unimed.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Unimed Inconfidentes</h3>
+        <ul>
+          <li>Não tem formulário de inclusão: basta enviar os documentos.</li>
+          <li><b>Titular:</b> RG, CPF, Cartão Nacional de Saúde (CNS) e comprovante de residência.</li>
+          <li>Informar <b>telefone e e-mail</b> do titular.</li>
+          <li><b>Cônjuge:</b> RG, CPF, CNS e certidão de casamento ou declaração de união estável.</li>
+          <li><b>Filhos:</b> RG e CPF (ou certidão de nascimento) e CNS.</li>
+          <li><b>Somente são aceitos anexos em formato PDF.</b></li>
         </ul>
       </div>
       <div class="card">
@@ -369,9 +380,10 @@ const OPERADORAS = [
   },
   {
     id:"inconf", nome:"Unimed Inconfidentes", plano:"Uni Master Empresa",
-    processos:["Exclusão"], cidades:"Itabirito (Ouro Preto/MG)",
+    processos:["Inclusão","Exclusão"], cidades:"Itabirito (Ouro Preto/MG)",
     vigencia:"Imediata",
     docs:{
+      "Inclusão (sem formulário)":["Titular: RG, CPF, CNS e comprovante de residência","Informar telefone e e-mail do titular","Cônjuge: RG, CPF, CNS e certidão de casamento ou declaração de união estável","Filhos: RG e CPF (ou certidão de nascimento) e CNS","SOMENTE SÃO ACEITOS ANEXOS EM FORMATO PDF"],
       "Exclusão (RH)":["Gera o Termo de comunicação de exclusão (AN.VEN.COM.008)","TRCT em PDF (nome, CPF, endereço e motivo preenchidos automaticamente)","Nome completo, CPF, endereço e telefone obrigatórios","Imprimir, assinar e carimbar no campo CONTRATANTE","Enviar junto com o termo de rescisão"]
     },
     links:[{t:"Abrir exclusão Inconfidentes", u:"https://apoio-cyber.github.io/unimed-inconfidentes/"}],
