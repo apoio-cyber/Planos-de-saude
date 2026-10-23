@@ -173,7 +173,6 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
         <thead><tr><th>Operadora</th><th>Inclusão do funcionário</th><th>Início da vigência</th></tr></thead>
         <tbody>
           <tr><td>Unimeds</td><td>Em até 30 dias da admissão (depois disso, há carências)</td><td>Imediata</td></tr>
-          <tr><td>Amil Saúde</td><td>Em até 30 dias da admissão</td><td>Imediata</td></tr>
           <tr><td>Amil Dental</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>Imediata</td></tr>
           <tr><td>GNDI</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>1º dia do mês seguinte ao mês em que a inclusão foi enviada</td></tr>
         </tbody>
@@ -252,7 +251,7 @@ footer.dv{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wr
         </ul>
       </div>
       <div class="card">
-        <h3>GNDI, Amil Saúde e Amil Dental</h3>
+        <h3>GNDI e Amil Dental</h3>
         <ul>
           <li><b>Formulário de adesão</b> ao plano.</li>
           <li><b>Cônjuge:</b> RG, CPF e certidão de casamento ou de união estável.</li>
@@ -289,18 +288,18 @@ const UNIMED_APP = {nome:"Unimed", lojas:[
 
 const OPERADORAS = [
   {
-    id:"amil", nome:"Amil Saúde e Amil Dental", plano:"Grupo Cucinare · FLV · Coletiva 7",
-    processos:["Inclusão","Exclusão"], cidades:"Amil Dental: todas as regiões · Amil Saúde: a confirmar",
-    vigencia:"Saúde: inclusão em até 30 dias da admissão · Dental: após 90 dias de experiência · vigência imediata",
+    id:"amil", nome:"Amil Dental", plano:"Grupo Cucinare · FLV · Coletiva 7",
+    processos:["Inclusão","Exclusão"], cidades:"Todas as regiões",
+    vigencia:"Inclusão após 90 dias de experiência · vigência imediata",
     docs:{
-      "Inclusão":["Amil Saúde: inclusão em até 30 dias da admissão","Amil Dental: inclusão após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Inclusão":["Inclusão após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
       "Exclusão — desligado":["Formulário Amil assinado (gerado pelo link de exclusão)"],
       "Exclusão — desistência (continua na empresa)":["Formulário Amil assinado (gerado pelo link de exclusão)","Carta de próprio punho pedindo o cancelamento"],
       "Assinatura":["O PDF de exclusão já sai preenchido: não alterar, apenas conferir e assinar"]
     },
     links:[{t:"Abrir exclusão Amil", u:"https://apoio-cyber.github.io/exclus-o-amil/"}],
-    downloads:[{t:"Baixar adesão Amil Saúde (PDF)", u:"formularios/adesao-amil-saude-2026.pdf"},{t:"Baixar adesão Amil Dental (PDF)", u:"formularios/adesao-amil-dental-2026.pdf"}],
-    app:{nome:"Amil Clientes (saúde) e Amil Dental", obs:"O titular libera o acesso dos dependentes no app: menu → “Liberar acesso para dependentes”.",
+    downloads:[{t:"Baixar adesão Amil Dental (PDF)", u:"formularios/adesao-amil-dental-2026.pdf"}],
+    app:{nome:"Amil Dental", obs:"O titular libera o acesso dos dependentes no app: menu → “Liberar acesso para dependentes”.",
          guia:{t:"Guia do app (PDF)", u:"guias/app-amil.pdf"}, lojas:[]}
   },
   {
