@@ -257,9 +257,9 @@ dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
       <div class="card">
         <h3>Unimeds (Vale Novo, Lorena, Araras)</h3>
         <ul>
-          <li><b>Titular:</b> RG, CPF, CTPS digital (dados pessoais e registro na Cucinare), comprovante de endereço e Cartão Nacional de Saúde (CNS).</li>
-          <li><b>Cônjuge:</b> certidão de casamento ou declaração de união estável, RG, CPF e CNS.</li>
-          <li><b>Filhos:</b> RG e CPF (ou certidão de nascimento) e CNS.</li>
+          <li><b>Titular:</b> RG (frente e verso), CPF, CTPS digital (dados pessoais e registro na Cucinare), comprovante de endereço e Cartão Nacional de Saúde (CNS).</li>
+          <li><b>Cônjuge:</b> certidão de casamento ou declaração de união estável, RG (frente e verso), CPF e CNS.</li>
+          <li><b>Filhos:</b> RG (frente e verso) e CPF (ou certidão de nascimento) e CNS.</li>
           <li>O CNS tem 15 números: fica no cartão do SUS ou no app <b>Meu SUS Digital</b>.</li>
           <li>Os <b>formulários da operadora</b>, gerados pelo link no quadro de cada Unimed.</li>
         </ul>
@@ -268,10 +268,10 @@ dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
         <h3>Unimed Inconfidentes</h3>
         <ul>
           <li>Não tem formulário de inclusão: basta enviar os documentos.</li>
-          <li><b>Titular:</b> RG, CPF, Cartão Nacional de Saúde (CNS) e comprovante de residência.</li>
+          <li><b>Titular:</b> RG (frente e verso), CPF, Cartão Nacional de Saúde (CNS) e comprovante de residência.</li>
           <li>Informar <b>telefone e e-mail</b> do titular.</li>
-          <li><b>Cônjuge:</b> RG, CPF, CNS e certidão de casamento ou declaração de união estável.</li>
-          <li><b>Filhos:</b> RG e CPF (ou certidão de nascimento) e CNS.</li>
+          <li><b>Cônjuge:</b> RG (frente e verso), CPF, CNS e certidão de casamento ou declaração de união estável.</li>
+          <li><b>Filhos:</b> RG (frente e verso) e CPF (ou certidão de nascimento) e CNS.</li>
           <li><b>Somente são aceitos anexos em formato PDF.</b></li>
         </ul>
       </div>
@@ -279,8 +279,8 @@ dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
         <h3>GNDI e Amil Dental</h3>
         <ul>
           <li><b>Formulário de adesão</b> ao plano.</li>
-          <li><b>Cônjuge:</b> RG, CPF e certidão de casamento ou de união estável.</li>
-          <li><b>Filhos:</b> RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento.</li>
+          <li><b>Cônjuge:</b> RG (frente e verso), CPF e certidão de casamento ou de união estável.</li>
+          <li><b>Filhos:</b> RG (frente e verso) e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento.</li>
         </ul>
       </div>
     </div>
@@ -322,7 +322,7 @@ const OPERADORAS = [
     processos:["Inclusão","Exclusão"], cidades:"Todas as regiões",
     vigencia:"Inclusão após 90 dias de experiência · vigência imediata",
     docs:{
-      "Inclusão":["Inclusão após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Inclusão":["Inclusão após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG (frente e verso), CPF e certidão de casamento ou união estável","Filhos: RG (frente e verso) e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
       "Exclusão — desligado":["Formulário Amil assinado (gerado pelo link de exclusão)"],
       "Exclusão voluntária (continua na empresa)":["Vale para titular ou somente dependentes","Formulário Amil assinado (gerado pelo link de exclusão)","Carta de próprio punho pedindo a exclusão, com nome completo, CPF, data e assinatura"],
       "Assinatura":["O PDF de exclusão já sai preenchido: não alterar, apenas conferir e assinar"]
@@ -338,7 +338,7 @@ const OPERADORAS = [
     processos:["Inclusão","Exclusão"], cidades:"Demais cidades (fora da lista regional)",
     vigencia:"Inclusão após 90 dias de experiência · vigência no 1º dia do mês seguinte ao envio",
     docs:{
-      "Inclusão":["A inclusão é feita após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG, CPF e certidão de casamento ou união estável","Filhos: RG e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
+      "Inclusão":["A inclusão é feita após os 90 dias de experiência","Envie os documentos pelo portal Entre Nós logo na admissão, assim que estiverem disponíveis. Não espere o prazo: a adesão aos benefícios é informada no ato da admissão","Formulário de adesão ao plano (baixar abaixo, imprimir, preencher e assinar)","Cônjuge: RG (frente e verso), CPF e certidão de casamento ou união estável","Filhos: RG (frente e verso) e CPF (obrigatórios a partir de 16 anos) e/ou certidão de nascimento"],
       "Escolha do plano":["O funcionário escolhe o plano de acordo com o valor que concorda em ter descontado em folha","Planos regionais Smart 200 por cidade (veja a busca por cidade no topo)","Smart 300, 400 e 500 atendem todas as localidades"],
       "Vigência":["1º dia do mês seguinte ao mês em que a inclusão foi enviada","Ex.: admitido em 20/10/2026 → inclusão em janeiro/2027 → vigência em 01/02/2027"],
       "Exclusão voluntária (continua na empresa)":["Vale para titular ou somente dependentes","Não tem formulário: basta a carta de próprio punho pedindo a exclusão","A carta precisa ter nome completo, CPF, data e assinatura"]
@@ -392,7 +392,7 @@ const OPERADORAS = [
     processos:["Inclusão","Exclusão"], cidades:"Itabirito (Ouro Preto/MG)",
     vigencia:"Imediata",
     docs:{
-      "Inclusão (sem formulário)":["Titular: RG, CPF, CNS e comprovante de residência","Informar telefone e e-mail do titular","Cônjuge: RG, CPF, CNS e certidão de casamento ou declaração de união estável","Filhos: RG e CPF (ou certidão de nascimento) e CNS","SOMENTE SÃO ACEITOS ANEXOS EM FORMATO PDF"],
+      "Inclusão (sem formulário)":["Titular: RG (frente e verso), CPF, CNS e comprovante de residência","Informar telefone e e-mail do titular","Cônjuge: RG (frente e verso), CPF, CNS e certidão de casamento ou declaração de união estável","Filhos: RG (frente e verso) e CPF (ou certidão de nascimento) e CNS","SOMENTE SÃO ACEITOS ANEXOS EM FORMATO PDF"],
       "Exclusão (RH)":["Gera o Termo de comunicação de exclusão (AN.VEN.COM.008)","TRCT em PDF (nome, CPF, endereço e motivo preenchidos automaticamente)","Nome completo, CPF, endereço e telefone obrigatórios","Imprimir, assinar e carimbar no campo CONTRATANTE","Enviar junto com o termo de rescisão"],
       "Exclusão voluntária (continua na empresa)":["Vale para titular ou somente dependentes","Carta de próprio punho pedindo a exclusão, com nome completo, CPF, data e assinatura","Além da documentação e dos formulários específicos da operadora"]
     },
