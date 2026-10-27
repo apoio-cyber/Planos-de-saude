@@ -11,17 +11,17 @@
 :root{
   --bg:#f2f7fb; --surface:#ffffff; --surface-2:#f7fbfe; --fg:#0d2a3d; --muted:#4f6a7c;
   --line:#d3e3ee; --accent:#005f95; --accent-2:#0088bd; --accent-fg:#ffffff; --accent-soft:#e1f0f8;
-  --ok:#005f95; --ok-soft:#e1f0f8; --ex:#0088bd; --ex-soft:#ffffff;
+  --ok:#005f95; --ok-soft:#e1f0f8; --ex:#0088bd; --ex-soft:#ffffff; --warn:#a4262c; --warn-soft:#fbe9ea;
   --display:"Fraunces",Georgia,serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#081824; --surface:#0f2232; --surface-2:#132a3c; --fg:#e3eff7; --muted:#9ab6c9;
   --line:#21405a; --accent:#4fb3e6; --accent-2:#7cc8ee; --accent-fg:#06192a; --accent-soft:#143650;
-  --ok:#7cc8ee; --ok-soft:#143650; --ex:#7cc8ee; --ex-soft:#0f2232; color-scheme:dark}}
+  --ok:#7cc8ee; --ok-soft:#143650; --ex:#7cc8ee; --ex-soft:#0f2232; --warn:#f2959a; --warn-soft:#3a1a1d; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#081824; --surface:#0f2232; --surface-2:#132a3c; --fg:#e3eff7; --muted:#9ab6c9;
   --line:#21405a; --accent:#4fb3e6; --accent-2:#7cc8ee; --accent-fg:#06192a; --accent-soft:#143650;
-  --ok:#7cc8ee; --ok-soft:#143650; --ex:#7cc8ee; --ex-soft:#0f2232; color-scheme:dark}
+  --ok:#7cc8ee; --ok-soft:#143650; --ex:#7cc8ee; --ex-soft:#0f2232; --warn:#f2959a; --warn-soft:#3a1a1d; color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;
@@ -182,6 +182,7 @@ dialog.cov-dlg::backdrop{background:rgba(4,20,32,.7)}
         <thead><tr><th>Operadora</th><th>Inclusão do funcionário</th><th>Início da vigência</th></tr></thead>
         <tbody>
           <tr><td>Unimeds</td><td>Em até 30 dias da admissão (depois disso, há carências)</td><td>Imediata</td></tr>
+          <tr><td>Unimed Araras</td><td>Todas as vidas cumprem carência, mesmo dentro dos 30 dias</td><td>Imediata</td></tr>
           <tr><td>Amil Dental</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>Imediata</td></tr>
           <tr><td>GNDI</td><td>Após os 90 dias de experiência (contados da admissão)</td><td>1º dia do mês seguinte ao mês em que a inclusão foi enviada</td></tr>
         </tbody>
@@ -377,7 +378,8 @@ const OPERADORAS = [
   {
     id:"araras", nome:"Unimed Araras", plano:"Unimed Anhanguera · Regional Plus Flex Enfermaria",
     processos:["Inclusão","Exclusão"], cidades:"Araras",
-    vigencia:"Imediata",
+    vigencia:"Imediata · todas as vidas cumprem carência",
+    nota:"Unimed Araras: todas as vidas incluídas cumprem carência, independentemente da data de admissão (contrato com poucas vidas).",
     docs:{
       "Inclusão (funcionário)":["Gera Carta de Orientação + Declaração de Saúde + Ficha de Cadastro","Cada formulário tem espaço para 3 dependentes. Mais dependentes? Gere outro formulário com as pessoas a mais (não há limite no contrato)","Colaborador assina: rubrica pág. 1, assinatura pág. 2 e pág. 11","Ficha de Cadastro: assinada só pela empresa e operadora","Com orientação médica: última página assinada e carimbada pelo médico"],
       "Exclusão (RH)":["Tipos: desligamento, pedido do beneficiário ou óbito","TRCT obrigatório no desligamento","Gera Planilha de Exclusão (CAD006) + Termo de Ciência (CAD001)","Colaborador assina a planilha e o termo"],
@@ -439,6 +441,7 @@ document.getElementById("grid").innerHTML = OPERADORAS.map(o=>`
     <div class="tags">${o.processos.map(p=>`<span class="tag ${p==="Exclusão"?"ex":""}">${p}</span>`).join("")}</div>
     <p class="cidades"><b>Cidades:</b> ${o.cidades?esc(o.cidades):PEND}</p>
     <p class="cidades"><b>Vigência:</b> ${o.vigencia?esc(o.vigencia):PEND}</p>
+    ${o.nota?`<div class="note" style="background:var(--warn-soft);color:var(--warn);border-left-color:var(--warn)">${esc(o.nota)}</div>`:""}
     <details><summary>Documentos e assinaturas</summary><div class="dbody">
       ${Object.entries(o.docs).map(([k,v])=>`<h4>${esc(k)}</h4><ul>${v.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`).join("")}
     </div></details>
